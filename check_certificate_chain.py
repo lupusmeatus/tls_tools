@@ -56,7 +56,11 @@ def main():
         print "- [X.509 Extension Details]:"
         for k in range(0, cert.get_ext_count()):
             ext = cert.get_ext_at(k)
-            print "  `-- [x509_" + ext.get_name() + "]:\n\t   %s\n" % ext.get_value().replace('\n', ' ')
+            if ext.get_value() is None:
+              print "  `-- [x509_" + ext.get_name() + "] has no value\n\n"
+            else:
+              print "  `-- [x509_" + ext.get_name() + "]:\n\t   %s\n" % ext.get_value().replace('\n', ' ')
+
         print "- [Fingerprint]:\t(hex) %s"  % cert.get_fingerprint()
         print "- [Keysize]:\t\t%s Bits"     % (pkey.size() * 8)
         print "- [RSA Modulus]:\t(hex) %s"  % pkey.get_modulus()
